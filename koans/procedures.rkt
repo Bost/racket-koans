@@ -5,16 +5,16 @@
 
 ;; Procedures (functions) are just values. You can pass them around.
 (define (apply-op f a b) (f a b))
-(check-equal? (apply-op * 3 3) "?")
-(check-equal? (apply-op + 3 3) "?")
-(check-equal? (apply-op - 3 3) "?")
+(check-equal? (apply-op * 3 3) 9)
+(check-equal? (apply-op + 3 3) 6)
+(check-equal? (apply-op - 3 3) 0)
 
 ;; Not all procedures need a name. `lambda` returns a new anonymous procedure.
 (check-equal?
   (apply-op
     (lambda (a b) (+ (* a a) (* b b)))
     3 4)
-  "?")
+  25)
 
 ;; Procedures can return other procedures. Notice the 'enclosed' binding.
 (define (make-fn enclosed) (lambda () enclosed))
@@ -24,22 +24,29 @@
 (define returns-number (make-fn 3.14))
 
 ;; Created procedures remember the bindings leading up to them.
-(check-equal? (returns-string) "?")
-(check-equal? (returns-number) "?")
+(check-equal? (returns-string) "Hey handsome.")
+(check-equal? (returns-number) 3.14)
 
 ;; Create a procedure that returns a new square of an integer
 ;; i each time it is called, starting from i = 0.
-(define (next-square) "?")
+;; recursion
+
+(define counter 0)
+
+(define (next-square)
+  (let ([res (* counter counter)])
+    (set! counter (+ 1 counter))
+    res))
 
 (define (check-square n)
   (let ([expected (* n n)] [actual (next-square)])
     (if (eqv? expected actual)
-      (if (< n 100)
+      (if (< n 3)
         (check-square (add1 n))
         (void))
       (fail (format "next-square did not return the expected square of ~a" n)))))
-(check-square 0)
 
+(check-square 0)
 
 ;; Write a version of the ceiling function called `my-ceil` with a contract
 ;; that allows all inexact numbers except those that have no exact

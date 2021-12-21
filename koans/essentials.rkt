@@ -6,15 +6,15 @@
 
 ;; define binds an identifier to a value
 (define foo 3)
-(check-equal? foo "?")
+(check-equal? foo 3)
 
 ;; Racket only prohibits ()[]{}",'`;#|\ characters in identifiers ...
 (define 2&--????++ "This identifier is okay.")
-(check-equal? 2&--????++ "Yeah, really.")
+(check-equal? 2&--????++ "This identifier is okay.")
 
 ;; ... unless the identifier is surrounded in pipes. Then, anything goes.
 (define |()[]{}",'`;#|\| "This identifier is okay too")
-(check-equal? |()[]{}",'`;#|\| "The empty identifier is ||")
+(check-equal? |()[]{}",'`;#|\| "This identifier is okay too")
 
 ;; Whitespace between meaningful tokens are ignored, but be sure to use
 ;; common sense and consistent indentation.
@@ -33,17 +33,17 @@
 ;; You call a procedure by writing an expression leading with the procedure's
 ;; identifier. The value resulting from evaluating the last expression in a
 ;; procedure's body gets returned to the caller.
-(check-equal? (my-func) "Hello, World!")
+(check-equal? (my-func) "Hello, Racket!")
 
 ;; Additional identifiers specify positional parameters.
 (define (add-two-numbers a b) (+ a b))
-(check-equal? (add-two-numbers 1 1) "?")
+(check-equal? (add-two-numbers 1 1) 2)
 
 ;; As expected, you can call procedures and use what they return as arguments.
 ;; Argument expressions are evaluated from left to right.
 (check-equal?
   (add-two-numbers (add-two-numbers 1 1) 1)
-  "?")
+  3)
 
 ;; Racket, being in the Lisp family, applies special rules to some forms.
 ;; For example, conditionals like `if` are not evaluated exactly like the
@@ -61,7 +61,7 @@
 ;; a procedure call and a special form look alike.
 (check-equal?
   (if (> 2 1) "True: 2 is > 1" "False: 2 <= 1")
-  "?")
+  "True: 2 is > 1")
 
 
 ;; Racket allows you to switch up bracket styles freely using
